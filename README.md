@@ -1,6 +1,6 @@
 Created by externo6. v1.0a
 
-By design this is a basic music bot that plays from youtube. I built this for my friends as the bot we used to use stopped functioning due to youtube blocking IP's without login, plus its a nice little project for myself.
+By design this is a basic discord music bot that plays from youtube. I built this for my friends as the bot we used to use stopped functioning due to youtube blocking IP's without login, plus its a nice little project for myself.
 A small note, I do not plan to provide any support for this, you use this at your own risk.
 Another note, my error catching is pretty basic/meh. In reality, I dont really care what the error is just print it and continue. If there is an error its most likely due to a service error or something I f'ed up.
 
