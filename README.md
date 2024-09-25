@@ -1,3 +1,5 @@
+mafMusic discord bot
+
 Created by externo6. v1.0a
 
 By design this is a basic discord music bot that plays from youtube. I built this for my friends as the bot we used to use stopped functioning due to youtube blocking IP's without login, plus its a nice little project for myself.
@@ -12,7 +14,7 @@ Features include:
 * 'ish' lyric searching (though in my very minimal testing it wasnt very accurate / gave no results?)
 * Supports been in multiple guilds with the same bot.
 
-There are no planned updates. Updates will most likely come when my friends request somethign, or it stops working for whatever reason.
+There are no planned updates. Updates will most likely come when my friends request something, or it stops working for whatever reason.
 
 Recommended to use docker though cant see why it cant be used on baremetal (not tested baremetal), check out the Dockerfile for pip packages / system packages required.
 If using oauth2 I suggest either using a host mount or perm docker volume for storage as the yt-dlp_cache holds the oauth data, if you dont then you'll need to re-auth everytime the container starts.
