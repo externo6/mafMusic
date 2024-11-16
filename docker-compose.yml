@@ -3,4 +3,3 @@ services:
     build: .
     volumes:
       - ./app/:/app/
-      - ./yt-dlp_cache/:/root/.cache/yt-dlp/
