@@ -21,7 +21,6 @@ Build the compose: docker compose build
 Run the compose: docker compose run
 This should generate a config.ini in the root of the app. Fill that in with your perfered prefix and docker token, then re-run the bot - If all is well you should have a working basic bot! :)
 
-
 oauth2 is no longer supported due to https://github.com/yt-dlp/yt-dlp/issues/11462
 
 When using cookie:
@@ -63,7 +62,7 @@ youtube_dl.utils.bug_reports_message = lambda: ''
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=config.get('DEFAULT', 'command_prefix'), intents=intents)
 
-# Support using cookie for login, specify the location of the cookie file. Recommended to put into /app/ ** Maybe make this autodetect?? 
+# Support using cookie for login, ensure cookies.ext is in the root of /app
 if config.get('DEFAULT', 'youtube_cookie') == 'True':
     print("Using Cookies")
     cookie = True
