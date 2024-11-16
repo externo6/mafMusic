@@ -24,5 +24,5 @@ This should generate a config.ini in the root of the app. Fill that in with your
 oauth2 is no longer supported due to https://github.com/yt-dlp/yt-dlp/issues/11462
 
 When using cookie:
-Cookie file is required, recommended to put in /app/ (same as config.ini)
+Cookie file is required, cookie.txt needs to be to put in /app/ (same as config.ini)
 https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies
