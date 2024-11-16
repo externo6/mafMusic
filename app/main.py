@@ -5,7 +5,7 @@ By design this is a basic discord music bot that plays from youtube. I built thi
 A small note, I do not plan to provide any support for this, you use this at your own risk.
 Another note, my error catching is pretty basic/meh. In reality, I dont really care what the error is just print it and continue. If there is an error its most likely due to a service error or something I f'ed up.
 
-While basic, it can auth via oauth2 to get around youtubes login requirements however this may break TOS so use that feature at your own risk (configurable via config)
+While basic, it can auth via oauth2/cookies to get around youtubes login requirements however this may break TOS so use that feature at your own risk (configurable via config)
 
 Features include: 
 * Playing music from Youtube
@@ -25,9 +25,15 @@ Run the compose: docker compose run
 This should generate a config.ini in the root of the app. Fill that in with your perfered prefix and docker token, then re-run the bot - If all is well you should have a working basic bot! :)
 
 
-When using oauth2:
+When using oauth2: *** WARNING, oauth seems to be getting 400 errors. Youtube is blocking it. https://github.com/yt-dlp/yt-dlp/issues/11462
 If the yt-dlp_cache does not have the oauth2 token the bot will pause and ask you to login with a link. You should only need to do this once as long as the cache is persistant. 
 (I only experienced it asking me to login via oauth2 IF youtube was forcing a login, if not then it just played the music without issue.)
+
+
+When using cookie:
+Cookie file is required, recommended to put in /app/ (same as config.ini)
+https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies
+
 """
 
 import discord
@@ -46,7 +52,7 @@ from azapi import AZlyrics
 # Generate config
 config = configparser.ConfigParser()
 if not os.path.exists('config.ini'):
-    config['DEFAULT'] = {'command_prefix': '!', 'zack_disabled': True, 'token': '', 'oauth_support': False}
+    config['DEFAULT'] = {'command_prefix': '!', 'zack_disabled': True, 'token': '', 'oauth_support': False, 'youtube_cookie': ''}
     config.write(open('config.ini', 'w'))
     print("Add your token to config.ini")
     sys.exit()
@@ -63,12 +69,22 @@ youtube_dl.utils.bug_reports_message = lambda: ''
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=config.get('DEFAULT', 'command_prefix'), intents=intents)
 
-# Should the bot attempt to use oauth?
+# Should the bot attempt to use oauth? 
 # as this is not a bool, make it a bool based off the string.
 if config.get('DEFAULT', 'oauth_support') == 'True':
     oauth = True
 else:
     oauth = False
+
+
+# Support using cookie for login, specify the location of the cookie file. Recommended to put into /app/ ** Maybe make this autodetect?? 
+if config.get('DEFAULT', 'youtube_cookie') == 'True':
+    print("Using Cookies")
+    cookie = True
+else:
+    print("NOT Using Cookies")
+    cookie = False
+
 
 # Def Lyrics (uses https://github.com/elmoiv/azapi)
 _lyrics = AZlyrics("duckduckgo", accuracy=0.5)
@@ -125,8 +141,12 @@ async def stream_yt(ctx, url):
         guild_id = ctx.guild.id
         if oauth: # If oauth is true use the below ydl_opts. 
             ydl_opts = {'format': 'bestaudio','username': 'oauth2','password': '',}
+        elif cookie: # If using cookie specify cookie file location
+            ydl_opts = {'format': 'bestaudio','cookiefile': 'cookies.txt',}
         else:
             ydl_opts = {'format': 'bestaudio',}
+
+        print(ydl_opts)
 
         ffmpeg_options = {'options': '-vn','before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5'} #-vn disable video
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:

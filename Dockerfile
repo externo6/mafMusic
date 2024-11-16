@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir discord youtube-search-python PyNaCl azapi ffmpeg
 RUN pip install --no-cache-dir https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
 # Install OAuth2 plugin for yt-dlp
-RUN pip install --no-cache-dir -U https://github.com/coletdjnz/yt-dlp-youtube-oauth2/archive/refs/heads/master.zip
+#RUN pip install --no-cache-dir -U https://github.com/coletdjnz/yt-dlp-youtube-oauth2/archive/refs/heads/master.zip
 
 WORKDIR /app/
 
